@@ -4,61 +4,9 @@
     <meta charset="UTF-8">
     <title>Randomantic</title>
     <link rel="icon" href="">
-    <style>
-      @font-face {
-        font-family: "pixels";
-        src: url("style/fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf");
-      }
-      body {
-        background-image: url("style/images/randomantic.png");
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        font-family: "pixels";
-        user-select: none;
-        overflow: hidden;
-        cursor: default;
-      }
-      #menu {
-        position: absolute;
-        top: 25%;
-        right: 7.5%;
-        text-align: center;
-      }
-      #title {
-        font-size: 5rem;
-        color: white;
-      }
-      .menu-button {
-        font-size: 2.5rem;
-        color: rgb(184, 176, 176);
-        transition: color 0.2s;
-        cursor: pointer;
-      }
-      .menu-button::before,
-      .menu-button::after {
-        opacity: 0;
-        transition: opacity 0.2s;
-        color: white;
-      }
-      .menu-button::before {
-        content: "> ";
-      }
-      .menu-button::after {
-        content: " <";
-      }
-      .menu-button:hover {
-        color: white;
-      }
-      .menu-button:hover::before,
-      .menu-button:hover::after {
-        opacity: 1;
-      }
-    </style>
+    <link rel="stylesheet" href="style/index.css">
   </head>
   <body>
-    <!-- This webpage/index will be the home screen for the story game. -->
     <div id="menu">
       <h1 id="title">Randomantic</h1>
       <nav>
