@@ -32,7 +32,7 @@ body {
 .menu-button::before,
 .menu-button::after {
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, color 0.2s;
     color: white;
 }
 .menu-button::before {
@@ -47,4 +47,9 @@ body {
 .menu-button:hover::before,
 .menu-button:hover::after {
     opacity: 1;
+}
+.menu-button:active,
+.menu-button:active::before,
+.menu-button:active::after {
+    color: rgb(52, 218, 52);
 }
