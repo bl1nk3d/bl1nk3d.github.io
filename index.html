@@ -16,13 +16,16 @@
       </nav>
     </div>
     <script>
-      var startButton = document.getElementById("start");
-      var optionsButton = document.getElementById("options");
-      var creditsButton = document.getElementById("credits");
+      var allButtons = document.getElementsByClassName("menu-button");
       
-      // functions
-      var onClick = function() {
+      var onButtonClick = function() {
+        var buttonAudio = document.createElement("audio");
+        buttonAudio.src = "style/audio/buttonSFX.mp3";
+        buttonAudio.autoplay = "true";
+      }
 
+      for(var i = 0; i < allButtons.length; i++) {
+        allButtons[i].addEventListener("click", onButtonClick);
       }
     </script>
   </body>
