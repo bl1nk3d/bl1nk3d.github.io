@@ -18,6 +18,7 @@ body {
     top: 25%;
     right: 7.5%;
     text-align: center;
+    transition: opacity 0.3s;
 }
 #title {
     font-size: 5rem;
@@ -53,4 +54,45 @@ body {
 .menu-button:active::after {
     opacity: 1;
     color: rgb(52, 218, 52);
+}
+
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+
+    display: none;
+}
+#text-box {
+    background-image: url(images/textbox.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 35%;
+    width: 70%;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+
+    display: none;
+}
+#character-name, #dialogue {
+    position: absolute;
+}
+#character-name {
+    top: 0;
+    left: 17.5%;
+    width: 25%;
+    color: white;
+    text-align: center;
+}
+
+#dialogue {
+    top: 30%;
+    left: 10%;
+    right: 10%;
+    text-align: justify;
 }
