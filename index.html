@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Randomantic</title>
-    <link rel="icon" href="">
+    <link rel="icon" href="style/images/logo.png">
     <link rel="stylesheet" href="style/index.css">
   </head>
   <body>
@@ -15,18 +15,67 @@
         <p><span class="menu-button" id="credits">Credits</span></p>
       </nav>
     </div>
+    <div id="loading-screen"></div>
+    <div id="text-box">
+      <h1 id="character-name"></h1>
+      <h2 id="dialogue"></h2>
+    </div>
+
     <script>
+      // ALL THE GAME BUTTONS
       var allButtons = document.getElementsByClassName("menu-button");
-      
+
+      // DIALOGUE BOX
+      var textBox = document.getElementById("text-box");
+      var charName = document.getElementById("character-name");
+      var dialogue = document.getElementById("dialogue");
+
+      // ALL THE SOUND EFFECTS
+      var hoverAudio = new Audio("style/audio/hoverSFX.MP3");
+      var buttonAudio = new Audio("style/audio/buttonSFX.MP3");
+      var clockAudio = new Audio("style/audio/alarmClockSFX.MP3");
+
+      // PLAYS A BUTTON HOVER SFX
+      var onButtonHover = function() {
+        hoverAudio.volume = 0.3;
+        hoverAudio.currentTime = 0;
+        hoverAudio.play();
+      }
+
+      for (var i = 0; i < allButtons.length; i++) {
+        allButtons[i].addEventListener("mouseenter", onButtonHover);
+      }
+
+      // PLAYS A BUTTON CLICK SFX
       var onButtonClick = function() {
-        var buttonAudio = document.createElement("audio");
-        buttonAudio.src = "style/audio/buttonSFX.MP3";
-        buttonAudio.autoplay = "true";
+        buttonAudio.currentTime = 0;
+        buttonAudio.play();
       }
 
       for(var i = 0; i < allButtons.length; i++) {
         allButtons[i].addEventListener("click", onButtonClick);
       }
+
+      // OFFICIALLY STARTS THE GAME WHEN THE USER PRESSES "START".
+      var onStartClick = function() {
+        document.getElementById("menu").style.opacity = "0";
+
+        setTimeout(function() {
+          // SWITCHES FROM MENU TO GAME
+          document.getElementById("menu").style.display = "none";
+          document.getElementById("loading-screen").style.display = "block";
+          
+          // DISPLAYS DIALOGUE/EVENT
+          setTimeout(function() {
+            textBox.style.display = "block";
+            charName.textContent = "Alarm";
+            dialogue.textContent = "*ring* *ring* *ring*...";
+            clockAudio.play();
+          }, 1500);
+
+        }, 600);
+      }
+      allButtons[0].addEventListener("click", onStartClick);
     </script>
   </body>
 </html>
