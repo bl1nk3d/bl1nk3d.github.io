@@ -15,7 +15,8 @@
         <p><span class="menu-button" id="credits">Credits</span></p>
       </nav>
     </div>
-    <div id="first-scene"></div>
+    <div id="bedroom-scene"></div>
+    <div id="alarm-scene"></div>
     <div id="text-box">
       <h1 id="character-name">Narrator</h1>
       <h2 id="dialogue">Lorem ipsum</h2>
@@ -30,7 +31,8 @@
       // ===== ELEMENTS =====
       var screen = document.body;
       var menu = document.getElementById("menu");
-      var firstScene = document.getElementById("first-scene");
+      var alarmScene = document.getElementById("alarm-scene");
+      var bedRoomScene = document.getElementById("bedroom-scene");
 
       var buttons = document.getElementsByClassName("menu-button");
       var choices = document.getElementById("choices");
@@ -48,6 +50,10 @@
       var hoverAudio = new Audio("style/audio/hoverSFX.MP3");
       var buttonAudio = new Audio("style/audio/buttonSFX.MP3");
       var clockAudio = new Audio("style/audio/alarmClockSFX.MP3");
+      var phoneVibrate = new Audio("style/audio/phoneVibrate.MP3");
+      var mainGameMusic = new Audio("style/audio/mainGameMusic.MP3");
+        mainGameMusic.volume = 0.5;
+        mainGameMusic.loop = "true";
 
       // ===== SOUND FUNCTIONS =====
       var onButtonHover = function() {
@@ -71,13 +77,37 @@
       addSoundEvents(buttons);
       addSoundEvents(choiceButtons);
 
-      // ===== SCENES =====
+      // ==== DIALOGUE STUFF ====
+
+      async function typeText(element, text) {
+        element.textContent = "";
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise(resolve => setTimeout(resolve, 75));
+        }
+      }
+
+      var showChoices = function () {
+        choicesVisible = true;
+        for (var i = 0; i < choiceButtons.length; i++) {
+          choiceButtons[i].style.display = "block";
+        }
+      };
+
+      var hideChoices = function () {
+        choicesVisible = false;
+        for (var i = 0; i < choiceButtons.length; i++) {
+          choiceButtons[i].style.display = "none";
+        }
+      };
+
+      // ===== SCENE CHANGE =====
       function showScene(currentScene, nextScene) {
         currentScene.style.display = "none";
         nextScene.style.display = "block";
       }
 
-      // ===== BUTTON EVENTS =====
+      // ===== SCENES =====
       function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -86,54 +116,49 @@
         menu.style.opacity = "0";
 
         await delay(300);
-        showScene(menu, firstScene);
-        screen.style.backgroundImage = "url('style/images/bedroom.png')";
+        showScene(menu, alarmScene);
 
         await delay(1500);
         clockAudio.play();
 
         textBox.style.display = "block";
-        for (var i = 0; i < choiceButtons.length; i++) {
-          choiceButtons[i].style.display = "none";
-        }
+        hideChoices();
         charName.textContent = "Alarm";
-        dialogue.textContent = "*ring* *ring* *ring*...";
+        await typeText(dialogue, "*ring* *ring* *ring*...");
 
-        await delay(4500);
-        for (var i = 0; i < choiceButtons.length; i++) {
-          choiceButtons[i].style.display = "block";
-        }
+        await delay(2000);
+        showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "*Wake up*";
         choiceButtons[1].querySelector(".choice-text").textContent = "*Stay in bed*";
       }
 
-      var sceneOneWakeUp = async function () {
+      var wakeUpScene = async function () {
+        hideChoices();
+
         clockAudio.pause();
         clockAudio.currentTime = 0;
+
         textBox.style.display = "none";
-        for (var i = 0; i < choiceButtons.length; i++) {
-          choiceButtons[i].style.display = "none";
-        }
-        firstScene.style.opacity = "0";
+        alarmScene.style.opacity = "0";
+        bedRoomScene.style.display = "block";
 
         await delay(1600);
-        showScene(firstScene, menu);
+        mainGameMusic.play();
+        showScene(alarmScene, bedRoomScene);
 
         await delay(300);
         textBox.style.display = "block";
-        charName.textContent = "Noah";
-        dialogue.textContent = "...";
+        charName.textContent = "Tokyo Toni";
+        await typeText(dialogue, "...");
 
-        await delay(1600);
-        dialogue.textContent = "What time is it...?";
-
-        await delay(3200);
-        charName.textContent = "Alarm";
-        dialogue.innerHTML = "Date: June 30, 2026<br>Time: 6:30am";
+        await delay(2000);
+        phoneVibrate.play();
+        charName.textContent = "Kween LL";
+        await typeText(dialogue, "Girl, you're gonna be late for school if you don't wake up now.");
       }
 
       startButton.addEventListener("click", onStartClick);
-      choiceButtons[0].addEventListener("click", sceneOneWakeUp);
+      choiceButtons[0].addEventListener("click", wakeUpScene);
     </script>
   </body>
 </html>
