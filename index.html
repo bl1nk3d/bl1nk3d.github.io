@@ -139,6 +139,7 @@
 
         await delay(1500);
         clockAudio.play();
+        bedroomSceneEl.style.display = "block";
 
         gameUI.style.display = "block";
         hideChoices();
@@ -171,7 +172,6 @@
 
         gameUI.style.display = "none";
         alarmSceneEl.style.opacity = "0";
-        bedroomSceneEl.style.display = "block";
 
         await delay(1600);
         mainGameMusic.play();
@@ -215,7 +215,7 @@
         phoneVibrate.play();
         charModel.style.display = "none";
         charName.textContent = "Kween LL";
-        await typeText(dialogue, "Hurry up then!");
+        await typeText(dialogue, "Hurry up then! Mrs. Alexandra is coming soon!");
 
         await delay(2000);
         charName.textContent = "Game";
@@ -238,13 +238,13 @@
 
         await delay(1000);
         walkingSFX.play();
+        trainSceneEl.style.display = "block";
 
         await delay(5000);
         trainScene();
       }
 
       var trainScene = async function() {
-        trainSceneEl.style.display = "block";
         walkingSceneEl.style.opacity = "0";
 
         await delay(1600);
