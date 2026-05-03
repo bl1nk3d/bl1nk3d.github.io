@@ -39,10 +39,10 @@
       // ===== ELEMENTS =====
       var screen = document.body;
       var menu = document.getElementById("menu");
-      var alarmScene = document.getElementById("alarm");
-      var bedRoomScene = document.getElementById("bedroom");
-      var asleepScene = document.getElementById("asleep");
-      var trainScene = document.getElementById("train");
+      var alarmSceneEl = document.getElementById("alarm");
+      var bedroomSceneEl = document.getElementById("bedroom");
+      var asleepSceneEl = document.getElementById("asleep");
+      var trainSceneEl = document.getElementById("train");
       var walkingSceneEl = document.getElementById("walking");
 
       var buttons = document.getElementsByClassName("menu-button");
@@ -64,8 +64,8 @@
       var clockAudio = new Audio("style/audio/alarmClockSFX.MP3");
       var phoneVibrate = new Audio("style/audio/phoneVibrate.MP3");
       var shine = new Audio("style/audio/shine.MP3");
-      var footstepsSFX = new Audio("style/audio/footstepsSFX.MP3");
-        footstepsSFX.volume = 0.3;
+      var walkingSFX = new Audio("style/audio/footstepsSFX.MP3");
+        walkingSFX.volume = 0.3;
       var mainGameMusic = new Audio("style/audio/mainGameMusic.MP3");
         mainGameMusic.volume = 0.5;
         mainGameMusic.loop = true;
@@ -135,7 +135,7 @@
         menu.style.opacity = "0";
 
         await delay(300);
-        showScene(menu, alarmScene);
+        showScene(menu, alarmSceneEl);
 
         await delay(1500);
         clockAudio.play();
@@ -159,8 +159,8 @@
       var stayAsleepScene = async function() {
         hideChoices();
         gameUI.style.display = "none";
-        alarmScene.style.opacity = "0";
-        asleepScene.style.display = "block";
+        alarmSceneEl.style.opacity = "0";
+        asleepSceneEl.style.display = "block";
       }
 
       var wakeUpScene = async function () {
@@ -170,12 +170,12 @@
         clockAudio.currentTime = 0;
 
         gameUI.style.display = "none";
-        alarmScene.style.opacity = "0";
-        bedRoomScene.style.display = "block";
+        alarmSceneEl.style.opacity = "0";
+        bedroomSceneEl.style.display = "block";
 
         await delay(1600);
         mainGameMusic.play();
-        showScene(alarmScene, bedRoomScene);
+        showScene(alarmSceneEl, bedroomSceneEl);
 
         await delay(300);
         gameUI.style.display = "block";
@@ -232,23 +232,23 @@
         mainGameMusic.pause();
         mainGameMusic.currentTime = 0;
         walkingSceneEl.style.display = "block";
-        showScene(bedRoomScene, walkingSceneEl);
+        showScene(bedroomSceneEl, walkingSceneEl);
         gameUI.style.display = "none";
         hideChoices();
 
         await delay(1000);
-        footstepsSFX.play();
+        walkingSFX.play();
 
         await delay(5000);
-        rideScene();
+        trainScene();
       }
 
-      var rideScene = async function() {
-        trainScene.style.display = "block";
+      var trainScene = async function() {
+        trainSceneEl.style.display = "block";
         walkingSceneEl.style.opacity = "0";
 
         await delay(1600);
-        showScene(walkingSceneEl, trainScene);
+        showScene(walkingSceneEl, trainSceneEl);
 
         await delay(1000);
         trainMusic.play();
