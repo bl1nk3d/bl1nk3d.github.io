@@ -15,15 +15,23 @@
         <p><span class="menu-button" id="credits">Credits</span></p>
       </nav>
     </div>
-    <div id="bedroom-scene"></div>
-    <div id="alarm-scene"></div>
-    <div id="text-box">
-      <h1 id="character-name">Narrator</h1>
-      <h2 id="dialogue">Lorem ipsum</h2>
-      <h3 id="text-hint">[ Press to continue... ]</h3>
-      <div id="choices">
-        <div class="choice one"><span class="choice-text">Option 1</span></div>
-        <div class="choice two"><span class="choice-text">Option 2</span></div>
+    <div class="scene" id="train"></div>
+    <div class="scene" id="walking"></div>
+    <div class="scene" id="bedroom"></div>
+    <div class="scene" id="asleep"></div>
+    <div class="scene" id="alarm"></div>
+
+    <div id="game-ui">
+      <img src="style/images/tokyoToni.png" id="character-model">
+
+      <div id="text-box">
+        <h1 id="character-name">Narrator</h1>
+        <h2 id="dialogue">Lorem ipsum</h2>
+        <h3 id="text-hint">[ Press to continue... ]</h3>
+        <div id="choices">
+          <div class="choice one"><span class="choice-text">Option 1</span></div>
+          <div class="choice two"><span class="choice-text">Option 2</span></div>
+        </div>
       </div>
     </div>
 
@@ -31,8 +39,11 @@
       // ===== ELEMENTS =====
       var screen = document.body;
       var menu = document.getElementById("menu");
-      var alarmScene = document.getElementById("alarm-scene");
-      var bedRoomScene = document.getElementById("bedroom-scene");
+      var alarmScene = document.getElementById("alarm");
+      var bedRoomScene = document.getElementById("bedroom");
+      var asleepScene = document.getElementById("asleep");
+      var trainScene = document.getElementById("train");
+      var walkingSceneEl = document.getElementById("walking");
 
       var buttons = document.getElementsByClassName("menu-button");
       var choices = document.getElementById("choices");
@@ -41,8 +52,9 @@
       var optionsButton = document.getElementById("options");
       var creditsButton = document.getElementById("credits");
 
-      var textBox = document.getElementById("text-box");
+      var gameUI = document.getElementById("game-ui");
       var charName = document.getElementById("character-name");
+      var charModel = document.getElementById("character-model");
       var dialogue = document.getElementById("dialogue");
       var textHint = document.getElementById("text-hint");
 
@@ -51,9 +63,15 @@
       var buttonAudio = new Audio("style/audio/buttonSFX.MP3");
       var clockAudio = new Audio("style/audio/alarmClockSFX.MP3");
       var phoneVibrate = new Audio("style/audio/phoneVibrate.MP3");
+      var shine = new Audio("style/audio/shine.MP3");
+      var footstepsSFX = new Audio("style/audio/footstepsSFX.MP3");
+        footstepsSFX.volume = 0.3;
       var mainGameMusic = new Audio("style/audio/mainGameMusic.MP3");
         mainGameMusic.volume = 0.5;
-        mainGameMusic.loop = "true";
+        mainGameMusic.loop = true;
+      var trainMusic = new Audio("style/audio/trainMusic.MP3");
+        trainMusic.volume = 0.5;
+        trainMusic.loop = true;
 
       // ===== SOUND FUNCTIONS =====
       var onButtonHover = function() {
@@ -88,14 +106,14 @@
       }
 
       var showChoices = function () {
-        choicesVisible = true;
+        var choicesVisible = true;
         for (var i = 0; i < choiceButtons.length; i++) {
           choiceButtons[i].style.display = "block";
         }
       };
 
       var hideChoices = function () {
-        choicesVisible = false;
+        var choicesVisible = false;
         for (var i = 0; i < choiceButtons.length; i++) {
           choiceButtons[i].style.display = "none";
         }
@@ -107,10 +125,11 @@
         nextScene.style.display = "block";
       }
 
-      // ===== SCENES =====
       function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
+
+      // ===== SCENES =====
 
       var onStartClick = async function() {
         menu.style.opacity = "0";
@@ -121,7 +140,7 @@
         await delay(1500);
         clockAudio.play();
 
-        textBox.style.display = "block";
+        gameUI.style.display = "block";
         hideChoices();
         charName.textContent = "Alarm";
         await typeText(dialogue, "*ring* *ring* *ring*...");
@@ -130,6 +149,18 @@
         showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "*Wake up*";
         choiceButtons[1].querySelector(".choice-text").textContent = "*Stay in bed*";
+
+        choiceButtons[0].onclick = wakeUpScene;
+        choiceButtons[1].onclick = stayAsleepScene;
+      }
+
+      startButton.addEventListener("click", onStartClick);
+
+      var stayAsleepScene = async function() {
+        hideChoices();
+        gameUI.style.display = "none";
+        alarmScene.style.opacity = "0";
+        asleepScene.style.display = "block";
       }
 
       var wakeUpScene = async function () {
@@ -138,7 +169,7 @@
         clockAudio.pause();
         clockAudio.currentTime = 0;
 
-        textBox.style.display = "none";
+        gameUI.style.display = "none";
         alarmScene.style.opacity = "0";
         bedRoomScene.style.display = "block";
 
@@ -147,7 +178,7 @@
         showScene(alarmScene, bedRoomScene);
 
         await delay(300);
-        textBox.style.display = "block";
+        gameUI.style.display = "block";
         charName.textContent = "Tokyo Toni";
         await typeText(dialogue, "...");
 
@@ -155,10 +186,74 @@
         phoneVibrate.play();
         charName.textContent = "Kween LL";
         await typeText(dialogue, "Girl, you're gonna be late for school if you don't wake up now.");
+      
+        await delay(2000);
+        charName.textContent = "Tokyo Toni";
+        await typeText(dialogue, "*muffled* Just give me five more minutes...");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charName.textContent = "Kween LL";
+        await typeText(dialogue, "Guess who's here in scho-");
+
+        await delay(500);
+        charName.textContent = "Tokyo Toni";
+        await typeText(dialogue, "ADAM?");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charName.textContent = "Kween LL";
+        await typeText(dialogue, "Yeah, who else?");
+
+        await delay(2000);
+        shine.play();
+        charModel.style.display = "block";
+        charName.textContent = "Tokyo Toni";
+        await typeText(dialogue, "There, I'm all ready!");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.style.display = "none";
+        charName.textContent = "Kween LL";
+        await typeText(dialogue, "Hurry up then!");
+
+        await delay(2000);
+        charName.textContent = "Game";
+        await typeText(dialogue, "Do you want to go to the train station?");
+        showChoices();
+        choiceButtons[0].querySelector(".choice-text").textContent = "Yes.";
+        choiceButtons[1].querySelector(".choice-text").textContent = "Not yet.";
+
+        choiceButtons[0].onclick = walkingScene;
+        choiceButtons[1].onclick = placeholder;
       }
 
-      startButton.addEventListener("click", onStartClick);
-      choiceButtons[0].addEventListener("click", wakeUpScene);
+      var walkingScene = async function() {
+        mainGameMusic.pause();
+        mainGameMusic.currentTime = 0;
+        walkingSceneEl.style.display = "block";
+        showScene(bedRoomScene, walkingSceneEl);
+        gameUI.style.display = "none";
+        hideChoices();
+
+        await delay(1000);
+        footstepsSFX.play();
+
+        await delay(5000);
+        rideScene();
+      }
+
+      var rideScene = async function() {
+        trainScene.style.display = "block";
+        walkingSceneEl.style.opacity = "0";
+
+        await delay(1600);
+        showScene(walkingSceneEl, trainScene);
+
+        await delay(1000);
+        trainMusic.play();
+      }
+
     </script>
   </body>
 </html>
