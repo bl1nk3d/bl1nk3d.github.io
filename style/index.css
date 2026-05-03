@@ -58,13 +58,27 @@ body {
     color: rgb(52, 218, 52);
 }
 
-#first-scene {
+#alarm-scene {
     position: fixed;
     inset: 0;
     background-color: black;
     height: 100%;
     width: 100%;
     transition: opacity 2s;
+
+    display: none;
+}
+#bedroom-scene {
+    background-image: url("images/bedroom.png");
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    inset: 0;
+    background-color: none;
+    height: 100%;
+    width: 100%;
 
     display: none;
 }
@@ -88,7 +102,7 @@ body {
 }
 #character-name {
     color: white;
-    left: -1.5%;
+    left: -2%;
     width: 60%;
     text-align: center;
 }
