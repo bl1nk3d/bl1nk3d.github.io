@@ -79,6 +79,8 @@ body {
     display: none;
 }
 #asleep {
+    background-image: url("images/space.png");
+
     display: none;
 }
 #train {
@@ -92,20 +94,30 @@ body {
 
     display: none;
 }
+#school {
+    background-image: url("images/school.png");
+
+    display: none;
+}
 
 #game-ui {
     position: fixed;
     inset: 0;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2rem;
+    padding-bottom: 5%;
+
     display: none;
 }
 #character-model {
-    position: absolute;
-    bottom: 25%;
-    left: 20%;
-    width: min(17.5vw, 325px);
+    position: static;
+    width: min(20vw, 350px);
+    transform: translate(50%, -30%);
     z-index: 1;
 
-    display: none;
+    display: block;
+    opacity: 0;
 }
 #text-box {
     background-image: url(images/textbox.png);
@@ -116,10 +128,8 @@ body {
     width: min(70vw, 900px);
     aspect-ratio: 22 / 6;
 
-    position: fixed;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: translate(-20%, 20%);
     z-index: 2;
 }
 #character-name, #dialogue, #text-hint {
