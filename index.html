@@ -179,6 +179,8 @@
 
         clockAudio.pause();
         clockAudio.currentTime = 0;
+        mainGameMusic.pause();
+        mainGameMusic.currentTime = 0;
 
         await delay(2000);
         showScene(currentSceneEl, asleepSceneEl);
@@ -232,7 +234,7 @@
         phoneVibrate.play();
         charName.textContent = "Kween LL";
         await typeText(dialogue, "I'll buy you dubai chewy cookie later after school if you wake up now.");
-        
+
         await delay(2000);
         shineSFX.play();
         charModel.style.opacity = "1";
@@ -250,10 +252,10 @@
         await typeText(dialogue, "Do you want to go to the train station?");
         showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "Yes.";
-        choiceButtons[1].querySelector(".choice-text").textContent = "Not yet.";
+        choiceButtons[1].querySelector(".choice-text").textContent = "*Go to sleep.*";
 
         choiceButtons[0].onclick = () => walkingScene(bedroomSceneEl, trainScene);
-        choiceButtons[1].onclick = () => walkingScene(bedroomSceneEl, trainScene);
+        choiceButtons[1].onclick = () => stayAsleepScene(bedroomSceneEl);
       }
 
       var walkingScene = async function(currentSceneEl, nextScene) {
@@ -323,15 +325,67 @@
 
         await delay(1000);
         mainGameMusic.pause();
+        charModel.src = "style/images/silhouette.png";
         charModel.style.opacity = "0";
         charName.textContent = "Game";
         await typeText(dialogue, "*You bump into someone.*");
-        charModel.src = "style/images/silhouette.png";
 
         await delay(2000);
         charModel.style.opacity = "1";
         charName.textContent = "???";
         await typeText(dialogue, "Watch where you're going.");
+
+        await delay(2000);
+        charModel.style.opacity = "0";
+        charName.textContent = "Game";
+        await typeText(dialogue, "What do you say to the person?");
+        
+        await delay(2000);
+        choiceButtons[0].querySelector(".choice-text").textContent = "I'm so sorry.";
+        choiceButtons[1].querySelector(".choice-text").textContent = "Mind your business.";
+        showChoices();
+
+        choiceButtons[0].onclick = async function() {
+          hideChoices();
+          charModel.style.opacity = "1";
+          charName.textContent = "???";
+          await typeText(dialogue, "I'm fine. Are you okay?");
+
+          await delay(1000);
+          mainGameMusic.play();
+
+          await delay(2000);
+          charModel.src = "style/images/tokyoToni.png";
+          charName.textContent = "You";
+          await typeText(dialogue, "Yeah, I'm good...");
+
+          await delay(2000);
+          charModel.src = "style/images/silhouette.png";
+          charName.textContent = "???";
+          await typeText(dialogue, "I hope you don't mind. But, may I ask what's your na-?");
+
+          await delay(2000);
+          charModel.src = "style/images/tokyoToni.png";
+          charName.textContent = "You";
+          await typeText(dialogue, "Sorry, I'm running a bit late... I'll catch you later!");
+
+          await delay(2000);
+          charModel.src = "style/images/silhouette.png";
+          charName.textContent = "???";
+          await typeText(dialogue, "Huh... weird person.");
+        }
+
+        choiceButtons[1].onclick = async function() {
+          hideChoices();
+          charModel.style.opacity = "1";
+          charName.textContent = "???";
+          await typeText(dialogue, "Bit rude much?");
+
+          await delay(2000);
+          charModel.src = "style/images/tokyoToni.png";
+          charName.textContent = "You";
+          await typeText(dialogue, "...");
+        };
       }
 
     </script>
