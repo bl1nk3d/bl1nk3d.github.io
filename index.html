@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Randomantic</title>
-    <link rel="icon" href="style/images/logo.png">
+    <link rel="icon" href="style/images/logo.svg">
     <link rel="stylesheet" href="style/index.css">
   </head>
   <body>
@@ -23,7 +23,7 @@
     <div class="scene" id="alarm"></div>
 
     <div id="game-ui">
-      <img src="style/images/tokyoToni.png" id="character-model">
+      <img src="style/images/tokyoToni.svg" id="character-model">
       <div id="text-box">
           <h1 id="character-name">Narrator</h1>
           <h2 id="dialogue">Lorem ipsum</h2>
@@ -36,6 +36,31 @@
     </div>
 
     <script>
+      var preloadWithPromise = async function(paths) {
+        await Promise.all(paths.map(src => {
+          return new Promise(resolve => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+          });
+        }));
+      }
+
+      window.onload = () => {
+        preloadImages([
+          "images/menu.svg",
+          "images/space.svg",
+          "images/bedroom.svg",
+          "images/train.svg",
+          "images/school.svg",
+          "images/classroom.svg",
+          "images/textbox.svg",
+          "images/button.svg",
+          "style/images/tokyoToni.png",
+          "style/images/silhouette.png"
+        ]);
+      };
+
       // ===== ELEMENTS =====
       var screen = document.body;
       var menu = document.getElementById("menu");
@@ -326,7 +351,7 @@
 
         await delay(1000);
         mainGameMusic.pause();
-        charModel.src = "style/images/silhouette.png";
+        charModel.src = "style/images/silhouette.svg";
         charModel.style.opacity = "0";
         charName.textContent = "Game";
         await typeText(dialogue, "*You bump into someone.*");
@@ -356,22 +381,22 @@
           mainGameMusic.play();
 
           await delay(2000);
-          charModel.src = "style/images/tokyoToni.png";
+          charModel.src = "style/images/tokyoToni.svg";
           charName.textContent = "You";
           await typeText(dialogue, "Yeah, I'm good...");
 
           await delay(2000);
-          charModel.src = "style/images/silhouette.png";
+          charModel.src = "style/images/silhouette.svg";
           charName.textContent = "???";
           await typeText(dialogue, "I hope you don't mind. But, may I ask what's your na-?");
 
           await delay(1000);
-          charModel.src = "style/images/tokyoToni.png";
+          charModel.src = "style/images/tokyoToni.svg";
           charName.textContent = "You";
           await typeText(dialogue, "Sorry, I'm running a bit late... I'll catch you later!");
 
           await delay(2000);
-          charModel.src = "style/images/silhouette.png";
+          charModel.src = "style/images/silhouette.svg";
           charName.textContent = "???";
           await typeText(dialogue, "Huh... weird person.");
         }
@@ -383,7 +408,7 @@
           await typeText(dialogue, "Bit rude much?");
 
           await delay(2000);
-          charModel.src = "style/images/tokyoToni.png";
+          charModel.src = "style/images/tokyoToni.svg";
           charName.textContent = "You";
           await typeText(dialogue, "...");
         };
