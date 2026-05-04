@@ -3,7 +3,7 @@
     src: url("fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf");
 }
 body {
-    background-image: url("images/randomantic.png");
+    background-image: url("images/menu.svg");
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
@@ -74,17 +74,17 @@ body {
     display: none;
 }
 #bedroom {
-    background-image: url("images/bedroom.png");
+    background-image: url("images/bedroom.svg");
 
     display: none;
 }
 #asleep {
-    background-image: url("images/space.png");
+    background-image: url("images/space.svg");
 
     display: none;
 }
 #train {
-    background-image: url("images/train.png");
+    background-image: url("images/train.svg");
 
     display: none;
 }
@@ -95,7 +95,7 @@ body {
     display: none;
 }
 #school {
-    background-image: url("images/school.png");
+    background-image: url("images/school.svg");
 
     display: none;
 }
@@ -120,7 +120,7 @@ body {
     opacity: 0;
 }
 #text-box {
-    background-image: url(images/textbox.png);
+    background-image: url(images/textbox.svg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -156,7 +156,7 @@ body {
     display: none;
 }
 .one, .two {
-    background-image: url(images/button.png);
+    background-image: url(images/button.svg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
