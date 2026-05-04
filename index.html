@@ -253,7 +253,7 @@
         await typeText(dialogue, "Do you want to go to the train station?");
         showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "Yes.";
-        choiceButtons[1].querySelector(".choice-text").textContent = "Not yet.";
+        choiceButtons[1].querySelector(".choice-text").textContent = "*Go back to sleep.*";
 
         choiceButtons[0].onclick = () => walkingScene(bedroomSceneEl, trainScene);
         choiceButtons[1].onclick = () => stayAsleepScene(bedroomSceneEl);
@@ -365,7 +365,7 @@
           charName.textContent = "???";
           await typeText(dialogue, "I hope you don't mind. But, may I ask what's your na-?");
 
-          await delay(2000);
+          await delay(1000);
           charModel.src = "style/images/tokyoToni.png";
           charName.textContent = "You";
           await typeText(dialogue, "Sorry, I'm running a bit late... I'll catch you later!");
