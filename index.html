@@ -210,6 +210,7 @@
 
         gameUI.style.display = "none";
         alarmSceneEl.style.opacity = "0";
+        bedroomSceneEl.style.opacity = "1";
         bedroomSceneEl.style.display = "block";
 
         await delay(1600);
@@ -252,7 +253,7 @@
         await typeText(dialogue, "Do you want to go to the train station?");
         showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "Yes.";
-        choiceButtons[1].querySelector(".choice-text").textContent = "*Go to sleep.*";
+        choiceButtons[1].querySelector(".choice-text").textContent = "Not yet.";
 
         choiceButtons[0].onclick = () => walkingScene(bedroomSceneEl, trainScene);
         choiceButtons[1].onclick = () => stayAsleepScene(bedroomSceneEl);
