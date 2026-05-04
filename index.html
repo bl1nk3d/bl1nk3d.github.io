@@ -47,6 +47,9 @@
       }
 
       window.onload = () => {
+        startButton.style.pointerEvents = "none";
+        startButton.style.opacity = "0.5";
+
         preloadImages([
           "style/images/menu.svg",
           "style/images/space.svg",
@@ -59,6 +62,9 @@
           "style/images/tokyoToni.svg",
           "style/images/silhouette.svg"
         ]);
+
+        startButton.style.pointerEvents = "auto";
+        startButton.style.opacity = "1";
       };
 
       // ===== ELEMENTS =====
