@@ -36,7 +36,7 @@
     </div>
 
     <script>
-      var preloadWithPromise = async function(paths) {
+      var preloadImages = async function(paths) {
         await Promise.all(paths.map(src => {
           return new Promise(resolve => {
             const img = new Image();
