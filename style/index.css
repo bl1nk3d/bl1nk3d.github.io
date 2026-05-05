@@ -1,184 +1,235 @@
 @font-face {
-    font-family: "pixels";
-    src: url("fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf");
+  font-family: "pixels";
+  src: url("fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf");
 }
 body {
-    background-image: url("images/menu.svg");
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    font-family: "pixels";
-    user-select: none;
-    overflow: hidden;
-    cursor: default;
+  background-image: url("images/menu.svg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "pixels";
+  user-select: none;
+  overflow: hidden;
+  cursor: default;
 }
 #menu {
-    position: absolute;
-    top: 20vh;
-    right: 5vw;
-    text-align: center;
-    transition: opacity 0.3s;
+  position: absolute;
+  top: 20vh;
+  right: 5vw;
+  text-align: center;
+  transition: opacity 0.3s;
 }
 #title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    color: white;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: white;
 }
 
 .menu-button {
-    font-size: clamp(1.2rem, 3vw, 2.5rem);
-    color: rgb(184, 176, 176);
-    transition: color 0.2s, font-size 0.2s;
-    cursor: pointer;
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  color: rgb(184, 176, 176);
+  transition: color 0.2s, font-size 0.2s;
+  cursor: pointer;
 }
 .menu-button::before,
 .menu-button::after {
-    opacity: 0;
-    transition: opacity 0.2s, color 0.2s;
-    color: white;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  color: white;
 }
 .menu-button::before {
-    content: "> ";
+  content: "> ";
 }
 .menu-button::after {
-    content: " <";
+  content: " <";
 }
 .menu-button:hover {
-    color: white;
-    font-size: clamp(1.45rem, 3.25vw, 2.75rem);
+  color: white;
+  font-size: clamp(1.45rem, 3.25vw, 2.75rem);
 }
 .menu-button:hover::before,
 .menu-button:hover::after {
-    opacity: 1;
+  opacity: 1;
 }
 .menu-button:active,
 .menu-button:active::before,
 .menu-button:active::after {
-    opacity: 1;
-    color: rgb(52, 218, 52);
+  opacity: 1;
+  color: rgb(52, 218, 52);
 }
 .scene {
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: fixed;
-    inset: 0;
-    height: 100%;
-    width: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  width: 100%;
 }
 #alarm {
-    background-color: black;
-    transition: opacity 2s;
+  background-color: black;
+  transition: opacity 2s;
 
-    display: none;
+  display: none;
+  z-index: 2;
 }
 #bedroom {
-    background-image: url("images/bedroom.svg");
+  background-image: url("images/bedroom.svg");
 
-    display: none;
+  display: none;
+  z-index: 1;
 }
 #asleep {
-    background-image: url("images/space.svg");
+  background-image: url("images/space.svg");
 
-    display: none;
+  display: none;
+  z-index: 1;
 }
 #train {
-    background-image: url("images/train.svg");
+  background-image: url("images/train.svg");
 
-    display: none;
+  display: none;
+  z-index: 1;
 }
 #walking {
-    background-color: black;
-    transition: opacity 2s;
+  background-color: black;
+  transition: opacity 2s;
 
-    display: none;
+  display: none;
+  z-index: 2;
 }
 #school {
-    background-image: url("images/school.svg");
+  background-image: url("images/school.svg");
 
-    display: none;
+  display: none;
+  z-index: 1;
 }
+#classroom {
+  background-image: url("images/classroom.svg");
 
+  display: none;
+  z-index: 1;
+}
 #game-ui {
-    position: fixed;
-    inset: 0;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 2rem;
-    padding-bottom: 5%;
+  position: fixed;
+  inset: 0;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2rem;
+  padding-bottom: 5%;
 
-    display: none;
+  display: none;
+  z-index: 4;
 }
 #character-model {
-    position: static;
-    width: min(20vw, 350px);
-    transform: translate(50%, -30%);
-    z-index: 1;
+  position: static;
+  width: min(20vw, 350px);
+  transform: translate(50%, -40%);
 
-    display: block;
-    opacity: 0;
+  display: block;
+  opacity: 0;
 }
 #text-box {
-    background-image: url(images/textbox.svg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    width: min(70vw, 900px);
-    aspect-ratio: 22 / 6;
+  background-image: url(images/textbox.svg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: min(70vw, 900px);
+  aspect-ratio: 22 / 6;
 
-    position: static;
-    transform: translate(-20%, 20%);
-    z-index: 2;
+  position: static;
+  transform: translate(-20%, 20%);
+  z-index: 2;
 }
 #character-name, #dialogue, #text-hint {
-    position: absolute;
+  position: absolute;
 }
 #character-name {
-    color: white;
-    left: -2%;
-    width: 60%;
-    text-align: center;
+  color: white;
+  left: -2%;
+  width: 60%;
+  text-align: center;
 }
 #dialogue {
-    top: 30%;
-    left: 8%;
-    width: 84%;
-    font-weight: normal;
+  top: 30%;
+  left: 8%;
+  width: 84%;
+  font-weight: normal;
 }
 
 #text-hint {
-    color: rgb(57, 53, 53);
-    bottom: 8%;
-    right: 5%;
+  color: rgb(57, 53, 53);
+  bottom: 8%;
+  right: 5%;
 
-    display: none;
+  display: none;
 }
 .one, .two {
-    background-image: url(images/button.svg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: fixed;
-    width: min(15vw, 300px);
-    aspect-ratio: 18 / 6;
-    cursor: pointer;
-    transition: width 0.2s;
-    right: 5%;
-    text-align: center;
+  background-image: url(images/button.svg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  width: min(15vw, 300px);
+  aspect-ratio: 18 / 6;
+  cursor: pointer;
+  transition: width 0.2s;
+  right: 5%;
+  text-align: center;
 }
 .one:hover, .two:hover {
-    width: min(17.5vw, 325px);
+  width: min(17.5vw, 325px);
 }
 .one {
-    bottom: 125%;
+  bottom: 125%;
 }
 .two {
-    bottom: 85%;
+  bottom: 85%;
 }
 .choice-text {
-    position: relative;
-    top: 35%;
-    font-size: clamp(1.2rem, 1.5vw, 2rem);
+  position: relative;
+  top: 35%;
+  font-size: clamp(1.2rem, 1.5vw, 2rem);
+}
+#loading {
+  position: fixed;
+  bottom: 0;
+  left: 11.5%;
+  transform: translate(-50%, -50%);
+  width: min(20vw, 300px);
+
+  display: none;
+  z-index: 10;
+}
+#acquired-item {
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.701);
+  color: white;
+
+  display: none;
+  z-index: 99;
+}
+
+#item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#item-image {
+  width: min(15vw, 325px);
+}
+
+#item-hint {
+  color: gray;
+  margin-bottom: 3vh;
 }
