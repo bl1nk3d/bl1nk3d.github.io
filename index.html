@@ -15,12 +15,26 @@
         <p><span class="menu-button" id="credits">Credits</span></p>
       </nav>
     </div>
-    <div class="scene" id="train"></div>
+    <div class="scene" id="classroom"></div>
     <div class="scene" id="school"></div>
+    <div class="scene" id="train"></div>
     <div class="scene" id="walking"></div>
     <div class="scene" id="bedroom"></div>
     <div class="scene" id="asleep"></div>
     <div class="scene" id="alarm"></div>
+
+    <img id="loading">
+    
+    <div id="acquired-item">
+      <div id="item-content">
+        <h1>You have received an item!</h1>
+        <img src="style/images/logo.svg" id="item-image">
+        <h2 id="item-name">A letter from Xavier!</h2>
+        <h4 id="item-desc">I wonder what's inside it...</h4>
+      </div>
+
+      <h5 id="item-hint">[ Press anywhere to continue... ]</h5>
+    </div>
 
     <div id="game-ui">
       <img src="style/images/tokyoToni.svg" id="character-model">
@@ -46,11 +60,11 @@
         }));
       }
 
-      window.onload = () => {
+      window.onload = async () => {
         startButton.style.pointerEvents = "none";
         startButton.style.opacity = "0.5";
 
-        preloadImages([
+        await preloadImages([
           "style/images/menu.svg",
           "style/images/space.svg",
           "style/images/bedroom.svg",
@@ -59,8 +73,17 @@
           "style/images/classroom.svg",
           "style/images/textbox.svg",
           "style/images/button.svg",
+          "style/images/peony.svg",
+          "style/images/matcha.svg",
+          "style/images/coke.svg",
+          "style/images/duck.svg",
+          "style/images/kweenLL.svg",
           "style/images/tokyoToni.svg",
-          "style/images/silhouette.svg"
+          "style/images/conductor.svg",
+          "style/images/silhouette.svg",
+          "style/images/xavier.svg",
+          "style/images/tokyoAthena.svg",
+          "style/images/alexandra.svg"
         ]);
 
         startButton.style.pointerEvents = "auto";
@@ -76,6 +99,7 @@
       var trainSceneEl = document.getElementById("train");
       var walkingSceneEl = document.getElementById("walking");
       var schoolSceneEl = document.getElementById("school");
+      var classroomSceneEl = document.getElementById("classroom");
 
       var buttons = document.getElementsByClassName("menu-button");
       var choices = document.getElementById("choices");
@@ -88,24 +112,45 @@
       var charName = document.getElementById("character-name");
       var charModel = document.getElementById("character-model");
       var dialogue = document.getElementById("dialogue");
-      var textHint = document.getElementById("text-hint");
+      var acquiredItem = document.getElementById("acquired-item");
+      var itemImage = document.getElementById("item-image");
+      var itemName = document.getElementById("item-name");
+      var itemDesc = document.getElementById("item-desc");
+      var loadingMsg = document.getElementById("loading");
 
       // ===== AUDIO =====
       var hoverAudio = new Audio("style/audio/hoverSFX.MP3");
+        hoverAudio.volume = 0.5;
       var buttonAudio = new Audio("style/audio/buttonSFX.MP3");
+        buttonAudio.volume = 0.5;
       var clockAudio = new Audio("style/audio/alarmClockSFX.MP3");
+        clockAudio.volume = 0.5;
+      var spaceMusic = new Audio("style/audio/spaceMusic.MP3");
+        spaceMusic.volume = 0.5;
+        spaceMusic.loop = true;
       var phoneVibrate = new Audio("style/audio/phoneVibrate.MP3");
+        phoneVibrate.volume = 0.5;
       var shineSFX = new Audio("style/audio/shineSFX.MP3");
+        shineSFX.volume = 0.5;
       var walkingSFX = new Audio("style/audio/footstepsSFX.MP3");
         walkingSFX.volume = 0.3;
       var trainCloseSFX = new Audio("style/audio/trainCloseSFX.MP3");
         trainCloseSFX.volume = 0.5;
-      var mainGameMusic = new Audio("style/audio/mainGameMusic.MP3");
-        mainGameMusic.volume = 0.5;
-        mainGameMusic.loop = true;
+      var music1 = new Audio("style/audio/mainGameMusic.MP3");
+        music1.volume = 0.5;
+        music1.loop = true;
       var trainMusic = new Audio("style/audio/trainMusic.MP3");
         trainMusic.volume = 0.5;
         trainMusic.loop = true;
+      var music2 = new Audio("style/audio/schoolMusic.MP3");
+        music2.volume = 0.5;
+        music2.loop = true;
+      var music3 = new Audio("style/audio/classroomMusic.MP3");
+        music3.volume = 0.5;
+        music3.loop = true;
+      var music4 = new Audio("style/audio/music4.MP3");
+        music4.volume = 0.5;
+        music4.loop = true;
 
       // ===== SOUND FUNCTIONS =====
       var onButtonHover = function() {
@@ -135,7 +180,7 @@
         element.textContent = "";
         for (let i = 0; i < text.length; i++) {
           element.textContent += text[i];
-          await new Promise(resolve => setTimeout(resolve, 75));
+          await new Promise(resolve => setTimeout(resolve, 65));
         }
       }
 
@@ -166,6 +211,8 @@
       // ===== SCENES =====
 
       var menuScreen = function(currentSceneEl) {
+        spaceMusic.pause();
+        spaceMusic.currentTime = 0;
         currentSceneEl.style.display = "none";
         menu.style.opacity = "1";
         menu.style.display = "block";
@@ -174,6 +221,8 @@
       }
 
       var onStartClick = async function(currentSceneEl) {
+        spaceMusic.pause();
+        spaceMusic.currentTime = 0;
         menu.style.opacity = "0";
         alarmSceneEl.style.opacity = "1";
         currentSceneEl.style.display = "none";
@@ -208,10 +257,12 @@
         currentSceneEl.style.opacity = "0";
         asleepSceneEl.style.display = "block";
 
+        spaceMusic.play();
+        spaceMusic.currentTime = 0;
         clockAudio.pause();
         clockAudio.currentTime = 0;
-        mainGameMusic.pause();
-        mainGameMusic.currentTime = 0;
+        music1.pause();
+        music1.currentTime = 0;
 
         await delay(2000);
         showScene(currentSceneEl, asleepSceneEl);
@@ -245,7 +296,7 @@
         bedroomSceneEl.style.display = "block";
 
         await delay(1600);
-        mainGameMusic.play();
+        music1.play();
         showScene(alarmSceneEl, bedroomSceneEl);
 
         await delay(300);
@@ -255,57 +306,76 @@
 
         await delay(2000);
         phoneVibrate.play();
-        charName.textContent = "Kween LL";
+        charModel.src = "style/images/kweenLL.svg";
+        charModel.style.opacity = "1";
+        charName.textContent = "Miro";
         await typeText(dialogue, "Girl, you're gonna be late for school if you don't wake up now.");
       
         await delay(2000);
-        charName.textContent = "You";
-        await typeText(dialogue, "*muffled* Just give me five more minutes...");
+        charModel.style.opacity = "0";
+        charName.textContent = "Phone";
+        await typeText(dialogue, "Date: June 30, 2026 | Time: 6:43am");
 
         await delay(2000);
-        phoneVibrate.play();
-        charName.textContent = "Kween LL";
-        await typeText(dialogue, "I'll buy you dubai chewy cookie later after school if you wake up now.");
+        charName.textContent = "You";
+        await typeText(dialogue, "OMG... I WOKE UP SO LATE!");
+
+        await delay(2000);
+        charName.textContent = "Game";
+        await typeText(dialogue, "*You brushed your teeth, took a shower, changed your clothes, ate food, and packed up.*");
 
         await delay(2000);
         shineSFX.play();
+        charModel.src = "style/images/tokyoToni.svg";
         charModel.style.opacity = "1";
         charName.textContent = "You";
         await typeText(dialogue, "There, I'm all ready!");
 
         await delay(2000);
-        phoneVibrate.play();
         charModel.style.opacity = "0";
-        charName.textContent = "Kween LL";
-        await typeText(dialogue, "Hurry up then! Mrs. Alexandra is coming soon!");
-
-        await delay(2000);
         charName.textContent = "Game";
         await typeText(dialogue, "Do you want to go to the train station?");
         showChoices();
         choiceButtons[0].querySelector(".choice-text").textContent = "Yes.";
         choiceButtons[1].querySelector(".choice-text").textContent = "*Go back to sleep.*";
 
-        choiceButtons[0].onclick = () => walkingScene(bedroomSceneEl, trainScene);
+        choiceButtons[0].onclick = () => walkingScene(bedroomSceneEl, () => trainScene(schoolScene));
         choiceButtons[1].onclick = () => stayAsleepScene(bedroomSceneEl);
       }
 
       var walkingScene = async function(currentSceneEl, nextScene) {
-        mainGameMusic.pause();
-        mainGameMusic.currentTime = 0;
+        music1.pause();
+        music1.currentTime = 0;
+        music2.pause();
+        music2.currentTime = 0;
+        music3.pause();
+        music3.currentTime = 0;
         walkingSceneEl.style.opacity = "1";
         showScene(currentSceneEl, walkingSceneEl);
         gameUI.style.display = "none";
         hideChoices();
 
+        var images = [
+          "style/images/peony.svg",
+          "style/images/matcha.svg",
+          "style/images/coke.svg",
+          "style/images/duck.svg"
+        ];
+
+        var rand = Math.floor(Math.random() * images.length);
+        loadingMsg.src = images[rand];
+
+        loadingMsg.style.display = "block";
+
         await delay(1000);
         walkingSFX.play();
 
         await delay(5000);
+        loadingMsg.style.display = "none";
         nextScene();
       }
 
-      var trainScene = async function() {
+      var trainScene = async function(nextScene) {
         trainCloseSFX.play();
         trainSceneEl.style.display = "block";
 
@@ -320,24 +390,29 @@
 
         await delay(1000);
         gameUI.style.display = "flex";
+        charModel.src = "style/images/conductor.svg";
+        charModel.style.opacity = "1";
         charName.textContent = "Train Conductor";
         await typeText(dialogue, "May I remind everyone to please take care of your belongings.");
 
         await delay(2000);
         gameUI.style.display = "none";
+        charModel.style.opacity = "0";
 
         await delay(8000);
         gameUI.style.display = "flex";
-        await typeText(dialogue, "We are now arriving at Shibuya Station.");
+        charModel.style.opacity = "1";
+        await typeText(dialogue, "We are now arriving at the next station. Please make way for those who are exiting the train.");
 
         await delay(2000);
         gameUI.style.display = "none";
+        charModel.style.opacity = "0";
 
         await delay(4000);
         trainMusic.pause();
         trainMusic.currentTime = 0;
         
-        walkingScene(trainSceneEl, schoolScene);
+        walkingScene(trainSceneEl, nextScene);
       }
 
       var schoolScene = async function() {
@@ -345,79 +420,280 @@
         schoolSceneEl.style.display = "block";
 
         await delay(1600);
-        mainGameMusic.play();
-        mainGameMusic.currentTime = 0;
+        music2.play();
+        music2.currentTime = 0;
         showScene(walkingSceneEl, schoolSceneEl);
 
         await delay(2000);
         gameUI.style.display = "flex";
+        charModel.src = "style/images/tokyoToni.svg";
         charModel.style.opacity = "1";
         charName.textContent = "You";
-        await typeText(dialogue, "I have to hurry! If I don't, Mrs. Alexandra will-");
+        await typeText(dialogue, "EXCUSE ME... SORRY, MAKE WAY PLEASE.");
 
-        await delay(1000);
-        mainGameMusic.pause();
-        charModel.src = "style/images/silhouette.svg";
+        await delay(2000);
         charModel.style.opacity = "0";
         charName.textContent = "Game";
         await typeText(dialogue, "*You bump into someone.*");
 
         await delay(2000);
+        charModel.src = "style/images/silhouette.svg";
         charModel.style.opacity = "1";
         charName.textContent = "???";
-        await typeText(dialogue, "Watch where you're going.");
+        await typeText(dialogue, "Watch where you're going next time.");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Ugh... all my things are scattered now.");
+        
+        await delay(2000);
+        charModel.style.opacity = "0";
+        charName.textContent = "Game";
+        await typeText(dialogue, "*You scatter trying to pick all your things up when a familiar silhouette approaches and helps you.*");
+
+        await delay(2000);
+        charModel.style.opacity = "1";
+        charModel.src = "style/images/xavier.svg";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "Here, let me help you. You're the student council president right? I'm Xavier.");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Oh, thank you. And yes, I'm the student council president. You're the volleyball captain, right?");
+
+        await delay(2000);
+        charModel.style.opacity = "1";
+        charModel.src = "style/images/xavier.svg";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "Yea haha, you go on ahead, I have to get something from my locker. See you later?");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Mhm. See you Xavier!");
 
         await delay(2000);
         charModel.style.opacity = "0";
         charName.textContent = "Game";
-        await typeText(dialogue, "What do you say to the person?");
+        await typeText(dialogue, "*The two of you seperate, and you take your phone out to text your friends.*");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charModel.style.opacity = "1";
+        charName.textContent = "You";
+        await typeText(dialogue, "YALL... THE GUY WHO HELPED ME WAS SO FINE, GUESS WHO IT WAS!");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.src = "style/images/tokyoAthena.svg";
+        charName.textContent = "Jansen";
+        await typeText(dialogue, "GIRL, IT'S ALREADY 7:30AM, MADAM ALEXANDRA IS COMING HERE, WHERE ARE YOU?");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "WAIT, I'M HEADING THERE. BUT LIKE, THE GUY WAS SO FINE. GUESS WHO.");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.src = "style/images/kweenLL.svg";
+        charName.textContent = "Miro";
+        await typeText(dialogue, "Just say who it was already.");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "It was the volleyball captain... :sob:");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.src = "style/images/kweenLL.svg";
+        charName.textContent = "Miro";
+        await typeText(dialogue, "I thought you said you already lost feelings for him.");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.src = "style/images/tokyoAthena.svg";
+        charName.textContent = "Jansen";
+        await typeText(dialogue, "Same-");
+
+        await delay(2000);
+        phoneVibrate.play();
+        charModel.src = "style/images/kweenLL.svg";
+        charName.textContent = "Miro";
+        await typeText(dialogue, "Girl, Mrs. Alexandra is coming here soon, let's just talk later when you're here.");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Okay.");
+
+        await delay(2000);
+        walkingScene(schoolSceneEl, classroomScene);
+      }
+
+      var classroomScene = async function() {
+        walkingSceneEl.style.opacity = 0;
+        classroomSceneEl.style.display = "block";
+        
+        await delay(1600);
+        music3.play();
+        music3.currentTime = 0;
+        showScene(walkingSceneEl, classroomSceneEl);
+
+        await delay(2000);
+        gameUI.style.display = "flex";
+        charModel.src = "style/images/tokyoAthena.svg";
+        charModel.style.opacity = "1";
+        charName.textContent = "Jansen";
+        await typeText(dialogue, "CHILE, YOU WERE SO CLOSE TO BEING LATE.");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "OMG HE WAS SO FINE THOUGH...");
+
+        await delay(2000);
+        charModel.src = "style/images/kweenLL.svg";
+        charName.textContent = "Miro";
+        await typeText(dialogue, "You're so OA.");
         
         await delay(2000);
-        choiceButtons[0].querySelector(".choice-text").textContent = "I'm so sorry.";
-        choiceButtons[1].querySelector(".choice-text").textContent = "Mind your business.";
+        charModel.src = "style/images/alexandra.svg";
+        charName.textContent = "Mrs. Alexandra";
+        await typeText(dialogue, "Do you want me to seperate you, girls in the back? HA?");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "We're sorry ma'am.");
+
+        await delay(2000);
+        charModel.style.opacity = "0";
+        charName.textContent = "Game";
+        await typeText(dialogue, "*A few minutes pass by...*");
+
+        await delay(2000);
+        await typeText(dialogue, "*Xavier enters the classroom and gets scolded by Mrs. Alexandra.*");
+
+        await delay(2000);
+        charModel.src = "style/images/alexandra.svg";
+        charModel.style.opacity = "1";
+        charName.textContent = "Mrs. Alexandra";
+        await typeText(dialogue, "Xavier? You're ten minutes late to my class. Why is this?");
+
+        await delay(2000);
+        charModel.src = "style/images/xavier.svg";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "Sorry ma'am. Something came up, I'll arrive earlier tomorrow.");
+
+        await delay(2000);
+        charModel.src = "style/images/silhouette.svg";
+        charName.textContent = "Everyone";
+        await typeText(dialogue, "Oooh...");
+
+        await delay(2000);
+        charModel.src = "style/images/alexandra.svg";
+        charName.textContent = "Mrs. Alexandra";
+        await typeText(dialogue, "Settle down everyone. Open your books to page 148.");
+
+        await delay(2000);
+        await typeText(dialogue, "Okay now that's done... You can pick any seat you'd like Xavier.");
+
+        await delay(2000);
+        charModel.style.opacity = "0";
+        charName.textContent = "Game";
+        await typeText(dialogue, "*Xavier comes closer to you and eventually sits down on the vacant seat beside you.*");
+
+        await delay(2000);
+        charModel.src = "style/images/xavier.svg";
+        charModel.style.opacity = "1";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "Hey. I forgot to ask you earlier, but, what's your name?");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Oh! You can call me Noah.");
+
+        await delay(2000);
+        charModel.src = "style/images/xavier.svg";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "That's a pretty name! So... what did I miss in class?");
+
+        await delay(2000);
+        charModel.src = "style/images/tokyoToni.svg";
+        charName.textContent = "You";
+        await typeText(dialogue, "Nothing much, ma'am only did attendance.");
+
+        await delay(2000);
+        charModel.src = "style/images/xavier.svg";
+        charName.textContent = "Xavier";
+        await typeText(dialogue, "Ah okay.");
+
+        await delay(2000);
+        charModel.style.opacity = "0";
+        charName.textContent = "Game";
+        await typeText(dialogue, "The class went on for another hour and a half. Luckily, that was your only class for the day.");
+
+        await delay(2000);
+        await typeText(dialogue, "Do you want to go to the train station?");
         showChoices();
+        choiceButtons[0].querySelector(".choice-text").textContent = "Absolutely.";
+        choiceButtons[1].querySelector(".choice-text").textContent = "Yes.";
 
-        choiceButtons[0].onclick = async function() {
-          hideChoices();
+        choiceButtons[0].onclick = () => walkingScene(classroomSceneEl, () => trainScene(bedroomScene2));
+        choiceButtons[1].onclick = () => walkingScene(classroomSceneEl, () => trainScene(bedroomScene2));
+      }
+
+      var bedroomScene2 = async function() {
+        bedroomSceneEl.style.display = "block";
+        walkingSceneEl.style.opacity = 0;
+
+        await delay(1600);
+        music4.play();
+        showScene(walkingSceneEl, bedroomSceneEl);
+
+        await delay(2000);
+        gameUI.style.display = "flex";
+        charName.textContent = "Game";
+        await typeText(dialogue, "You rummage through your things and get ready to pack for the next day, when you come across... a letter?");
+
+        await delay(2000);
+        gameUI.style.display = "none";
+        shineSFX.play();
+        acquiredItem.style.display = "flex";
+        screen.onclick = async function() {
+          acquiredItem.style.display = "none";
+
+          await delay(2000);
+          gameUI.style.display = "flex";
+          await typeText(dialogue, "You open the letter and read its contents.");
+
+          await delay(2000);
+          charModel.src = "style/images/xavier.svg";
           charModel.style.opacity = "1";
-          charName.textContent = "???";
-          await typeText(dialogue, "I'm fine. Are you okay?");
+          charName.textContent = "Xavier (Letter)";
+          await typeText(dialogue, "I was hoping that you stayed after class for a little longer.");
 
-          await delay(1000);
-          mainGameMusic.play();
+          await delay(2000);
+          await typeText(dialogue, "I was gonna ask you if you wanted to go out sometime for coffee... haha.");
+
+          await delay(2000);
+          await typeText(dialogue, "Anyways, here's my number if you're up for coffee or anything else.");
 
           await delay(2000);
           charModel.src = "style/images/tokyoToni.svg";
           charName.textContent = "You";
-          await typeText(dialogue, "Yeah, I'm good...");
+          await typeText(dialogue, "0983 - 257 - 8124...");
 
           await delay(2000);
-          charModel.src = "style/images/silhouette.svg";
-          charName.textContent = "???";
-          await typeText(dialogue, "I hope you don't mind. But, may I ask what's your na-?");
-
-          await delay(1000);
-          charModel.src = "style/images/tokyoToni.svg";
-          charName.textContent = "You";
-          await typeText(dialogue, "Sorry, I'm running a bit late... I'll catch you later!");
-
-          await delay(2000);
-          charModel.src = "style/images/silhouette.svg";
-          charName.textContent = "???";
-          await typeText(dialogue, "Huh... weird person.");
+          charModel.style.opacity = "0";
+          charName.textContent = "Game";
+          await typeText(dialogue, "This is the end of the demo. Thanks for playing! :D");
         }
-
-        choiceButtons[1].onclick = async function() {
-          hideChoices();
-          charModel.style.opacity = "1";
-          charName.textContent = "???";
-          await typeText(dialogue, "Bit rude much?");
-
-          await delay(2000);
-          charModel.src = "style/images/tokyoToni.svg";
-          charName.textContent = "You";
-          await typeText(dialogue, "...");
-        };
       }
 
     </script>
